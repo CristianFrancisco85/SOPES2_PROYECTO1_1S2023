@@ -9,3 +9,7 @@ export function CPUUsage() {
 export function DiskUsage() {
   return window['go']['main']['MyStatsBackend']['DiskUsage']();
 }
+
+export function MemoryUsage() {
+  return window['go']['main']['MyStatsBackend']['MemoryUsage']();
+}

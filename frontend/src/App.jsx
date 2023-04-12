@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Doughnut } from 'react-chartjs-2'
-import { CPUUsage, DiskUsage } from '../wailsjs/go/main/MyStatsBackend'
+import { CPUUsage, DiskUsage, MemoryUsage } from '../wailsjs/go/main/MyStatsBackend'
 import 'chart.js/auto'
 import './App.css'
 
@@ -17,6 +17,7 @@ const App = () => {
 
 	const [cpuData, setCpuData] = useState(data)
 	const [diskData, setDiskData] = useState(data)
+    const [memoryData, setMemoryData] = useState(data)
 
 
 	useEffect(() => {
@@ -48,6 +49,19 @@ const App = () => {
             }
             setDiskData(newDiskData)
 
+            const memoryUsage = await MemoryUsage()
+            const memoryAvailable = 100 - memoryUsage
+
+            const newMemoryData = {
+                labels: ['Memory Available','Memory Usage'],
+                datasets: [{
+                    data: [memoryAvailable, memoryUsage],
+                    backgroundColor: ['#6663ff','#63ceff'],
+                    hoverBackgroundColor: ['#6663ff','#63ceff'],
+                }]
+            }
+            setMemoryData(newMemoryData)
+
 		}, 2000)
 
         return () => clearInterval(timer)
@@ -66,6 +80,11 @@ const App = () => {
                 <div className="cardStat" >
                     <h2>Porcentaje de uso de Disco</h2>
                     <Doughnut data={diskData} />
+                </div>
+
+                <div className="cardStat" >
+                    <h2>Porcentaje de uso de Memoria</h2>
+                    <Doughnut data={memoryData} />
                 </div>
             </div>
 

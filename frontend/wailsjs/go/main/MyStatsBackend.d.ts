@@ -4,3 +4,5 @@
 export function CPUUsage():Promise<number>;
 
 export function DiskUsage():Promise<number>;
+
+export function MemoryUsage():Promise<number>;
